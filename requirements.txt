@@ -1,0 +1,9 @@
+pyscript
+networkx
+matplotlib
+scikit-learn 
+opencv-python
+pandas 
+numpy 
+seaborn 
+os
