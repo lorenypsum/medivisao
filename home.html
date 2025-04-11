@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Home | MediVisão</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       rel="stylesheet"
@@ -24,11 +25,19 @@
           <p id="user-perfil" class="text-sm opacity-80">Perfil</p>
         </div>
         <nav class="flex flex-col gap-3 text-left text-white font-medium">
-          <a href="perfil.html" class="hover:bg-[#5b8f79] p-2 rounded">👤 Meu Perfil</a>
-          <a href="camera.html" class="hover:bg-[#5b8f79] p-2 rounded">📷 Tirar Foto</a>
-          <a href="analise.html" class="hover:bg-[#5b8f79] p-2 rounded">🧬 Análise de Imagem</a>
-          <a href="historico.html" class="hover:bg-[#5b8f79] p-2 rounded">🗂 Histórico</a>
-        </nav>
+            <a href="perfil.html" class="hover:bg-[#5b8f79] p-2 rounded flex items-center gap-2">
+              <i class="fas fa-user"></i> Meu Perfil
+            </a>
+            <a href="camera.html" class="hover:bg-[#5b8f79] p-2 rounded flex items-center gap-2">
+              <i class="fas fa-camera"></i> Tirar Foto
+            </a>
+            <a href="analise.html" class="hover:bg-[#5b8f79] p-2 rounded flex items-center gap-2">
+              <i class="fas fa-microscope"></i> Análise de Imagem
+            </a>
+            <a href="historico.html" class="hover:bg-[#5b8f79] p-2 rounded flex items-center gap-2">
+              <i class="fas fa-history"></i> Histórico
+            </a>
+          </nav>          
       </div>
 
       <button
@@ -41,7 +50,7 @@
 
     <!-- CONTEÚDO PRINCIPAL -->
     <main class="flex-1 p-10">
-      <h1 class="text-3xl font-bold text-[#5b8f79] mb-4">Bem-vindo ao MediVisão 👋</h1>
+      <h1 class="text-3xl font-bold text-[#7DA584] mb-4">Bem-vindo ao MediVisão 👋</h1>
       <p class="text-lg">Sua plataforma de apoio ao diagnóstico por imagem com inteligência artificial.</p>
       <img src="assets/drawing.png" alt="MediVisão Ilustração" class="mt-8 max-w-md" />
     </main>

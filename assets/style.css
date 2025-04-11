@@ -3,6 +3,9 @@
 body {
   font-family: 'Quicksand', sans-serif;
   background-color: #FAF6EF;
+  color: gray;
+  font-size: 16px;
+  line-height: 1.5;
   margin: 0;
   padding: 0;
   display: flex;
