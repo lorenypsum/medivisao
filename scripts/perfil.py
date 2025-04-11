@@ -1,4 +1,4 @@
-from js import document, navigator, console
+from js import document, navigator, console, window
 from pyscript import when
 
 # Simulação de dados de usuário
@@ -56,3 +56,8 @@ def capturar_foto(event):
             alert("Erro ao acessar a câmera: " + str(e))
 
     start_camera()
+
+@when("click", "#logout-btn")
+def sair(_):
+    window.sessionStorage.clear()
+    window.location.href = "index.html"
