@@ -3,13 +3,13 @@ from pyscript import when
 import asyncio
 from pyodide.ffi import to_js
 
+
 # Simulação de dados de usuário
 usuario_logado = {
-    "nome": window.localStorage.getItem("nome") or "Xavier Batista Fernandes",
-    "email": window.localStorage.getItem("email") or "xavier.batista@medivisao.com",
-    "perfil": window.localStorage.getItem("perfil") or "médico",
-    "foto": window.localStorage.getItem("foto") or "assets/persona-paciente.png"
-}
+    "nome": window.localStorage.getItem("nome") or "Insira seu nome completo.",
+    "email": window.localStorage.getItem("email") or "Insira seu endereço de e-mail",
+    "perfil": window.localStorage.getItem("perfil") or "Selecione o perfil.",
+    "foto": window.localStorage.getItem("foto") or "assets/avatar-padrao.svg"}
 
 video = document.getElementById("webcam")
 canvas = document.createElement("canvas")
