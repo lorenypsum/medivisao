@@ -22,7 +22,6 @@ def fazer_login(event):
         window.sessionStorage.setItem("perfil", perfil)
         window.sessionStorage.setItem("nome", nome)
         window.location.href = "home.html"
-        window.alert(f"Login realizado com sucesso como: {perfil}.")
     elif not usuario:
         window.alert("Preencha o campo usuário.")
     elif not senha:
