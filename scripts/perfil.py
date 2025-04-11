@@ -40,6 +40,7 @@ def salvar_dados(event):
 
     carregar_dados()
     window.alert("Informações atualizadas com sucesso!")
+    console.log("Dados do usuário atualizados:", usuario_logado)
 
 # Ativa a câmera e mostra botão de capturar
 @when("click", "#abrir-camera")
@@ -50,9 +51,11 @@ async def abrir_camera(event):
         video.srcObject = stream
         video.classList.remove("hidden")
         document.getElementById("capturar-foto").classList.remove("hidden")
+        console.log("📷 Webcam iniciada.")
 
     except Exception as e:
         window.alert("Erro ao acessar a câmera: " + str(e))
+        console.log("Erro ao acessar a câmera:", str(e))
 
 # Captura imagem da câmera e salva no localStorage
 @when("click", "#capturar-foto")
@@ -74,7 +77,7 @@ def capturar_foto(event):
             stream.getTracks()[0].stop()
         video.classList.add("hidden")
         document.getElementById("capturar-foto").classList.add("hidden")
-
+        console.log("Imagem capturada e salva no localStorage.")
         window.alert("Foto de perfil atualizada!")
 
     except Exception as e:

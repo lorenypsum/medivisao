@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Captura de Imagem | MediVisão</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://pyscript.net/releases/2025.3.1/core.css"
+    />
+    <script
+      type="module"
+      src="https://pyscript.net/releases/2025.3.1/core.js"
+    ></script>
+  </head>
+
+  <body class="flex min-h-screen text-gray-800 bg-gray-100">
+    <!-- MENU LATERAL -->
+    <div id="sidebar"></div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="flex-1 p-10">
+      <h1 class="text-3xl font-bold text-[#5b8f79] mb-6">Captura de Imagem</h1>
+
+      <div class="flex flex-col md:flex-row gap-10 items-start">
+        <!-- WEBCAM -->
+        <div class="flex flex-col items-center">
+          <video id="webcam" autoplay class="w-96 h-72 rounded shadow"></video>
+          <div class="flex flex-col gap-2 mt-4">
+            <button
+              id="abrir-camera"
+              class="px-4 py-2 bg-[#7DA584] text-white font-semibold rounded hover:bg-[#45745e]"
+            >
+              <i class="fas fa-play"></i> Ativar Câmera
+            </button>
+            <button
+              id="capturar-foto"
+              class="px-4 py-2 bg-[#7DA584] text-white font-semibold rounded hover:bg-[#5b8f79] hidden"
+            >
+              <i class="fas fa-camera"></i> Capturar Foto
+            </button>
+          </div>
+        </div>
+
+        <!-- PRÉVIA -->
+        <div class="flex flex-col gap-4">
+          <h2 class="text-lg font-medium mb-2">Prévia da Imagem:</h2>
+          <img
+            id="preview"
+            class="w-96 h-72 rounded border border-gray-300 object-contain bg-white"
+            src=""
+          />
+        </div>
+      </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="sidebar.js"></script>
+    <script type="py" src="scripts/captura.py"></script>
+  </body>
+</html>

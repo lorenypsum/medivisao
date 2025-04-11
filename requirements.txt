@@ -6,4 +6,9 @@ opencv-python
 pandas 
 numpy 
 seaborn 
+fastapi 
+uvicorn 
+python-multipart  
+pillow
+tensorflow
 os
