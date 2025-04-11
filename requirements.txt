@@ -11,4 +11,3 @@ uvicorn
 python-multipart  
 pillow
 tensorflow
-os
