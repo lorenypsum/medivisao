@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Meu Perfil | MediVisão</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://pyscript.net/releases/2025.3.1/core.css"
+    />
+    <script
+      type="module"
+      src="https://pyscript.net/releases/2025.3.1/core.js"
+    ></script>
+  </head>
+
+  <body class="flex min-h-screen text-gray-800 bg-gray-100">
+    <!-- MENU LATERAL -->
+    <div id="sidebar"></div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="flex-1 p-10">
+      <h1 class="text-3xl font-bold text-[#5b8f79] mb-4">Meu Perfil</h1>
+
+      <div class="flex flex-col md:flex-row gap-8 items-start">
+        <!-- FOTO -->
+        <div class="flex flex-col items-center">
+          <img
+            id="foto-perfil"
+            src="assets/persona-paciente.png"
+            class="w-48 h-48 rounded-full object-cover border-4 border-[#7DA584]"
+          />
+          <video
+            id="webcam"
+            autoplay
+            class="mt-4 w-48 h-36 rounded shadow hidden"
+          ></video>
+          <button
+            id="capturar-foto"
+            class="mt-4 px-4 py-2 bg-[#7DA584] text-white font-semibold rounded hover:bg-[#5b8f79]"
+          >
+            📸 Tirar Foto
+          </button>
+        </div>
+
+        <!-- DADOS DO PERFIL -->
+        <div class="flex-1 bg-white p-6 rounded shadow w-full max-w-xl">
+          <form class="flex flex-col gap-4" id="form-perfil">
+            <label class="font-medium">Nome:</label>
+            <input id="nome" class="p-2 border rounded border-gray-300" />
+
+            <label class="font-medium">Email:</label>
+            <input id="email" class="p-2 border rounded border-gray-300" />
+
+            <label class="font-medium">Perfil:</label>
+            <select id="perfil" class="p-2 border rounded border-gray-300">
+              <option>médico</option>
+              <option>enfermeiro</option>
+              <option>paciente</option>
+              <option>administrador</option>
+            </select>
+
+            <button
+              type="submit"
+              class="bg-[#7DA584] text-white font-bold py-2 px-4 rounded hover:bg-[#5b8f79]"
+            >
+              💾 Salvar Alterações
+            </button>
+          </form>
+        </div>
+      </div>
+    </main>
+    
+    <!-- Scripts -->
+    <script src="./sidebar.js"></script>
+    <script type="py" src="scripts/logout.py"></script>
+    <script type="py" src="scripts/perfil.py"></script>
+  </body>
+</html>

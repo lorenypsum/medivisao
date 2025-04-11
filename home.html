@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Home | MediVisão</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       rel="stylesheet"
@@ -15,46 +14,30 @@
       src="https://pyscript.net/releases/2025.3.1/core.js"
     ></script>
   </head>
-  <body class="flex min-h-screen text-gray-800">
-    <!-- MENU LATERAL -->
-    <aside class="w-64 bg-[#7DA584] text-white p-6 flex flex-col justify-between">
-      <div>
-        <img src="assets/logo-white.png" class="w-40 mb-6 mx-auto" />
-        <div class="mb-6 text-center">
-          <p class="font-semibold text-lg" id="user-nome">Usuário</p>
-          <p id="user-perfil" class="text-sm opacity-80">Perfil</p>
-        </div>
-        <nav class="flex flex-col gap-3 text-left text-white font-medium">
-            <a href="perfil.html" class="hover:bg-[#5b8f79] p-2 rounded flex items-center gap-2">
-              <i class="fas fa-user"></i> Meu Perfil
-            </a>
-            <a href="camera.html" class="hover:bg-[#5b8f79] p-2 rounded flex items-center gap-2">
-              <i class="fas fa-camera"></i> Tirar Foto
-            </a>
-            <a href="analise.html" class="hover:bg-[#5b8f79] p-2 rounded flex items-center gap-2">
-              <i class="fas fa-microscope"></i> Análise de Imagem
-            </a>
-            <a href="historico.html" class="hover:bg-[#5b8f79] p-2 rounded flex items-center gap-2">
-              <i class="fas fa-history"></i> Histórico
-            </a>
-          </nav>          
-      </div>
 
-      <button
-        id="logout-btn"
-        class="bg-white text-[#7DA584] font-bold py-2 px-4 rounded hover:bg-red-100 hover:text-red-600 mt-8"
-      >
-        Sair
-      </button>
-    </aside>
+  <body class="flex min-h-screen text-gray-800 bg-gray-100">
+    <!-- MENU LATERAL -->
+    <div id="sidebar"></div>
 
     <!-- CONTEÚDO PRINCIPAL -->
     <main class="flex-1 p-10">
-      <h1 class="text-3xl font-bold text-[#7DA584] mb-4">Bem-vindo ao MediVisão 👋</h1>
-      <p class="text-lg">Sua plataforma de apoio ao diagnóstico por imagem com inteligência artificial.</p>
-      <img src="assets/drawing.png" alt="MediVisão Ilustração" class="mt-8 max-w-md" />
+      <h1 class="text-3xl font-bold text-[#7DA584] mb-4">
+        Bem-vindo ao MediVisão 👋
+      </h1>
+      <p class="text-lg">
+        Sua plataforma de apoio ao diagnóstico por imagem com inteligência
+        artificial.
+      </p>
+      <img
+        src="assets/drawing.png"
+        alt="MediVisão Ilustração"
+        class="mt-8 max-w-md"
+      />
     </main>
-
+    
+    <!-- Scripts -->
+    <script src="./sidebar.js"></script>
+    <script type="py" src="scripts/logout.py"></script>
     <script type="py" src="scripts/home.py"></script>
   </body>
 </html>
