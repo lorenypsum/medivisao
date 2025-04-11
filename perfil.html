@@ -9,6 +9,10 @@
       rel="stylesheet"
       href="https://pyscript.net/releases/2025.3.1/core.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
     <script
       type="module"
       src="https://pyscript.net/releases/2025.3.1/core.js"
@@ -21,14 +25,14 @@
 
     <!-- CONTEÚDO PRINCIPAL -->
     <main class="flex-1 p-10">
-      <h1 class="text-3xl font-bold text-[#5b8f79] mb-4">Meu Perfil</h1>
+      <h1 class="text-3xl font-bold text-[#7DA584] mb-4">Meu Perfil</h1>
 
       <div class="flex flex-col md:flex-row gap-8 items-start">
         <!-- FOTO -->
         <div class="flex flex-col items-center">
           <img
             id="foto-perfil"
-            src="assets/persona-paciente.png"
+            src=""
             class="w-48 h-48 rounded-full object-cover border-4 border-[#7DA584]"
           />
           <video
@@ -36,12 +40,20 @@
             autoplay
             class="mt-4 w-48 h-36 rounded shadow hidden"
           ></video>
-          <button
-            id="capturar-foto"
-            class="mt-4 px-4 py-2 bg-[#7DA584] text-white font-semibold rounded hover:bg-[#5b8f79]"
-          >
-            📸 Tirar Foto
-          </button>
+          <div class="flex flex-col gap-2 mt-4">
+            <button
+              id="abrir-camera"
+              class="px-4 py-2 bg-[#7DA584] text-white font-semibold rounded hover:bg-[#45745e]"
+            >
+              <i class="fas fa-play"></i> Ativar Câmera
+            </button>
+            <button
+              id="capturar-foto"
+              class="px-4 py-2 bg-[#7DA584] text-white font-semibold rounded hover:bg-[#5b8f79] hidden"
+            >
+              <i class="fas fa-camera"></i> Capturar Foto
+            </button>
+          </div>
         </div>
 
         <!-- DADOS DO PERFIL -->
@@ -65,13 +77,13 @@
               type="submit"
               class="bg-[#7DA584] text-white font-bold py-2 px-4 rounded hover:bg-[#5b8f79]"
             >
-              💾 Salvar Alterações
+              <i class="fas fa-floppy-disk"></i> Salvar Alterações
             </button>
           </form>
         </div>
       </div>
     </main>
-    
+
     <!-- Scripts -->
     <script src="./sidebar.js"></script>
     <script type="py" src="scripts/perfil.py"></script>
