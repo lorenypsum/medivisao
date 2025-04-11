@@ -1,0 +1,108 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  background-color: #FAF6EF;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-container {
+  background-color: white;
+  padding: 40px 50px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.logo {
+  width: 220px;
+  margin-bottom: 20px;
+}
+
+h1, h2, h3 {
+  font-family: 'Quicksand', 'Segoe UI', sans-serif;
+  color: #7DA584;
+  font-optical-sizing: auto;
+  font-weight: normal;
+  font-style: normal;
+}
+
+.form-group {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: 600;
+  color: #7DA584;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #c8d8c2;
+  border-radius: 6px;
+  font-size: 16px;
+  background-color: #f4f7f3;
+}
+
+.btn-login {
+  background-color: #7DA584;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.btn-login:hover {
+  background-color: #5e896d;
+}
+
+.cadastro-link {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+.cadastro-link a {
+  color: #7DA584;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.cadastro-link a:hover {
+  text-decoration: underline;
+}
+.cadastro-link a:visited {
+  color: #7DA584;
+}
+
+.stButton > button {
+  background-color: #7DA584;
+  color: white;
+  border-radius: 6px;
+}
+
+.stButton > button:hover {
+  background-color: #3b8e68;
+  border-color: white;
+  color: white;    
+}
+
+[data-testid="stSidebar"] {
+  background-color: #7DA584;
+}

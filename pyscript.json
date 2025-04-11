@@ -5,7 +5,7 @@
     ],
     "fetch": [{
         "files": [
-            "./pdi.py"
+            "./scripts/login.py"
         ]
     }]
 }
