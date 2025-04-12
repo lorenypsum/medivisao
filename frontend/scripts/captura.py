@@ -72,7 +72,7 @@ def download(image_data):
         console.log("Erro ao baixar imagem:", e)
 
 # Enviar para o backend
-@when("click", "#save")
+@when("click", "#save_backend")
 async def save(image_data):
     try:
         usuario_id = window.sessionStorage.getItem("usuario_id")
