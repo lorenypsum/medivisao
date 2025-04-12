@@ -11,3 +11,5 @@ uvicorn
 python-multipart  
 pillow
 tensorflow
+sqlmodel
+os

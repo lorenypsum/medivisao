@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Análise de Imagem | MediVisão</title>
+    <link rel="stylesheet" href="assets/style.css" />
+    <link rel="stylesheet" href="https://pyscript.net/releases/2025.3.1/core.css" />
+    <script type="module" src="https://pyscript.net/releases/2025.3.1/core.js"></script>
+  </head>
+
+  <body style="flex-direction: column; align-items: flex-start; padding: 40px">
+    <h1>Análise de Imagem</h1>
+
+    <!-- Upload de Imagem -->
+    <div class="form-group">
+      <label for="upload">Selecionar Imagem:</label>
+      <input type="file" id="upload" accept="image/*" />
+    </div>
+
+    <!-- Área de pré-visualização -->
+    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+      <div>
+        <h3>Imagem Original</h3>
+        <img id="preview-original" class="border" style="width: 300px;" />
+      </div>
+      <div>
+        <h3>Resultado</h3>
+        <img id="preview-result" class="border" style="width: 300px;" />
+      </div>
+    </div>
+
+    <!-- Botões de Processamento -->
+    <div class="form-group" style="margin-top: 30px;">
+      <button class="btn-login" id="btn-resize">Resize</button>
+      <button class="btn-login" id="btn-normalize">Normalize</button>
+      <button class="btn-login" id="btn-blur">Gaussian Blur</button>
+      <button class="btn-login" id="btn-clahe">CLAHE</button>
+      <button class="btn-login" id="btn-otsu">Otsu</button>
+    </div>
+
+    <py-script type="py" src="scripts/analise.py"></py-script>
+  </body>
+</html>
+
