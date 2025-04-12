@@ -39,3 +39,25 @@ def deletar_imagem(db: Session, imagem_id: str):
         db.commit()
         return True
     return False
+
+def salvar_ou_atualizar_imagem(db: Session, imagem: schemas.ImagemCreate):
+    existente = db.query(models.Imagem).filter(models.Imagem.usuario_id == imagem.usuario_id).first()
+    
+    if existente:
+        existente.original = imagem.original
+        existente.resize = imagem.resize
+        existente.normalize = imagem.normalize
+        existente.gaussian = imagem.gaussian
+        existente.clahe = imagem.clahe
+        existente.otsu = imagem.otsu
+        existente.resultado_final = imagem.resultado_final
+        existente.diagnostico = imagem.diagnostico
+        existente.probabilidade = imagem.probabilidade
+        existente.metadados = imagem.metadados
+    else:
+        existente = models.Imagem(**imagem.dict())
+        db.add(existente)
+
+    db.commit()
+    db.refresh(existente)
+    return existente

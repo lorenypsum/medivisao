@@ -69,5 +69,15 @@ def deletar(imagem_id: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Imagem não encontrada")
     return {"ok": True}
 
+@app.post("/imagens", response_model=schemas.ImagemResponse)
+def salvar_ou_atualizar(imagem: schemas.ImagemCreate, db: Session = Depends(get_db)):
+    return crud.salvar_ou_atualizar_imagem(db, imagem)
+
+@app.get("/usuarios/{usuario_id}/imagem", response_model=schemas.ImagemResponse)
+def obter_imagem(usuario_id: str, db: Session = Depends(get_db)):
+    imagem = db.query(models.Imagem).filter(models.Imagem.usuario_id == usuario_id).first()
+    if not imagem:
+        raise HTTPException(status_code=404, detail="Imagem não encontrada")
+    return imagem
 
 
