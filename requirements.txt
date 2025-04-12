@@ -12,4 +12,4 @@ python-multipart
 pillow
 tensorflow
 sqlalchemy
-os
+pydantic
