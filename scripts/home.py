@@ -7,7 +7,7 @@ perfil = window.sessionStorage.getItem("perfil")
 nome = window.sessionStorage.getItem("nome")
 
 if not usuario or not perfil:
-    window.location.href = "login.html"
+    window.location.href = "home.html"
 
 document.getElementById("user-nome").innerText = nome
 document.getElementById("user-perfil").innerText = perfil.capitalize()

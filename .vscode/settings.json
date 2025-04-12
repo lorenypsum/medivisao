@@ -3,5 +3,6 @@
         "assets"
     ],
     "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
+    "python.testing.pytestEnabled": true,
+    "livePreview.defaultPreviewPath": "/index.html"
 }

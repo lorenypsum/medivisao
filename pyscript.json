@@ -12,7 +12,7 @@
             "./scripts/home.py",
             "./scripts/login.py",
             "./scripts/perfil.py",
-            "./scripts/processamento.py"
+            "./scripts/pre_processamento.py"
         ]
     }]
 }
