@@ -5,14 +5,14 @@
     ],
     "fetch": [{
         "files": [
-            "./scripts/analise.py",
-            "./scripts/cadastro.py",
-            "./scripts/captura.py",
-            "./scripts/historico.py",
-            "./scripts/home.py",
-            "./scripts/login.py",
-            "./scripts/perfil.py",
-            "./scripts/pre_processamento.py"
+            "../scripts/analise.py",
+            "../scripts/cadastro.py",
+            "../scripts/captura.py",
+            "../scripts/historico.py",
+            "../scripts/home.py",
+            "../scripts/login.py",
+            "../scripts/perfil.py",
+            "../scripts/pre_processamento.py"
         ]
     }]
 }
