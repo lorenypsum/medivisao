@@ -35,11 +35,14 @@ async def carregar_imagem(event):
             payload = {
                 "usuario_id": usuario_id,
                 "original": data_url,
+                "histogram": None,
                 "resize": None,
                 "normalize": None,
                 "gaussian": None,
                 "clahe": None,
                 "otsu": None,
+                "morphological": None,
+                "edgedetection": None,
                 "resultado_final": None,
                 "diagnostico": None,
                 "probabilidade": None,
@@ -92,12 +95,6 @@ async def aplicar_filtro(filtro, append_after_id):
             # Store the processed image in the global dictionary
             processadas[filtro] = imagem_processada
 
-            # Update localStorage for persistence
-            window.localStorage.setItem(f"img_{filtro}", imagem_processada)
-
-            # Update the dynamic gallery
-            # atualizar_galeria_processadas()
-
             # Add the processed image below the corresponding button
             button = document.querySelector(append_after_id)
             if button:
@@ -114,12 +111,15 @@ async def aplicar_filtro(filtro, append_after_id):
         window.alert(f"Erro ao processar imagem: {e}")
         console.log(e)
 
-
 # Ações por filtro
 @when("click", "#btn-resize")
 async def resize(e):
     await aplicar_filtro("resize", "#btn-resize")
 
+# Ações por filtro
+@when("click", "#btn-histogram")
+async def histogram(e):
+    await aplicar_filtro("histogram", "#btn-histogram")
 
 @when("click", "#btn-normalize")
 async def normalize(e):
@@ -139,6 +139,14 @@ async def clahe(e):
 @when("click", "#btn-otsu")
 async def otsu(e):
     await aplicar_filtro("otsu", "#btn-otsu")
+
+@when("click", "#btn-morphological")
+async def morphological(e):
+    await aplicar_filtro("morphological", "#btn-morphological")
+
+@when("click", "#btn-edge")
+async def edge(e):
+    await aplicar_filtro("edge", "#btn-edge")
 
 
 # Gera galeria de imagens processadas com botão de download e salvar
@@ -173,11 +181,9 @@ def atualizar_galeria_processadas():
         salvar = document.createElement("button")
         salvar.innerText = "💾 Salvar"
         salvar.className = "bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
-        salvar.onclick = lambda e, f=filtro: salvar_imagem_local(f)
         card.appendChild(salvar)
 
         galeria.appendChild(card)
-
 
 # Faz download
 def baixar_imagem(data_url, nome):
@@ -187,10 +193,86 @@ def baixar_imagem(data_url, nome):
     link.click()
     console.log("Imagem baixada:", nome)
 
+@when("click", "#btn-salvar-tudo")
+async def salvar_todas_no_banco(event):
+    try:
+        if not image_original:
+            window.alert("Você precisa carregar uma imagem primeiro.")
+            return
 
-# Salva a imagem no localStorage
-def salvar_imagem_local(filtro):
-    if filtro in processadas:
-        window.localStorage.setItem(f"img_{filtro}", processadas[filtro])
-        window.alert(f"Imagem '{filtro}' salva localmente!")
-        console.log(f"Imagem '{filtro}' salva no localStorage.")
+        usuario_id = window.sessionStorage.getItem("usuario_id") or "123"
+
+        payload = {
+            "usuario_id": usuario_id,
+            "original": image_original,
+            "resize": processadas.get("resize"),
+            "histogram": processadas.get("histogram"),
+            "normalize": processadas.get("normalize"),
+            "gaussian": processadas.get("gaussian"),
+            "clahe": processadas.get("clahe"),
+            "otsu": processadas.get("otsu"),
+            "morphological": processadas.get("morphological"),
+            "edgedetection": processadas.get("edge"),
+            "resultado_final": None,
+            "diagnostico": None,
+            "probabilidade": None,
+            "metadados": None,
+        }
+
+        response = await fetch(
+            "http://localhost:8000/imagens",
+            method="POST",
+            body=json.dumps(payload),
+            headers=to_js({"Content-Type": "application/json"})
+        )
+
+        if response.ok:
+            window.alert("Imagens salvas no banco com sucesso!")
+            console.log("🧠 Imagens salvas:", await response.json())
+            await atualizar_galeria_processadas_backend()
+        else:
+            console.log("❌ Erro ao salvar:", await response.text())
+            window.alert("Erro ao salvar imagens no banco.")
+    except Exception as e:
+        console.log("❌ Exceção ao salvar todas:", e)
+        window.alert(f"Erro ao salvar imagens: {e}")
+
+async def atualizar_galeria_processadas_backend():
+    try:
+        usuario_id = window.sessionStorage.getItem("usuario_id") or "123"
+        response = await fetch(f"http://localhost:8000/usuarios/{usuario_id}/imagem")
+        if response.ok:
+            imagem_obj = await response.json()
+            mostrar_resultado_backend(imagem_obj)
+        else:
+            console.log("❌ Erro ao buscar imagem:", await response.text())
+    except Exception as e:
+        console.log("❌ Erro ao buscar imagem do banco:", e)
+
+def mostrar_resultado_backend(imagem_obj):
+    galeria = document.getElementById("processadas")
+    galeria.innerHTML = ""
+
+    filtros = [
+        "original", "resize", "histogram", "normalize",
+        "gaussian", "clahe", "otsu", "morphological", "edgedetection"
+    ]
+
+    for filtro in filtros:
+        base64img = imagem_obj.get(filtro)
+        if base64img:
+            card = document.createElement("div")
+            card.className = "border rounded p-2 shadow w-64 text-center bg-white"
+
+            titulo = document.createElement("h4")
+            titulo.innerText = filtro.capitalize()
+            titulo.className = "text-lg font-semibold mb-2 text-[#5b8f79]"
+            card.appendChild(titulo)
+
+            imagem = document.createElement("img")
+            imagem.src = base64img
+            imagem.className = "w-full h-40 object-contain mb-2 border"
+            card.appendChild(imagem)
+
+            galeria.appendChild(card)
+    console.log("🖼️ Galeria atualizada com imagens do banco.")

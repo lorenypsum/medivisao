@@ -72,6 +72,9 @@ def processar_imagem(req: ProcessRequest):
     try:
         if req.method == "resize":
             result = Resize((128, 128)).fit_transform([img])[0]
+        elif req.method == "histogram":
+            result = HistogramEqualization().fit_transform([img])[0]
+            result = (result * 255).astype(np.uint8)
         elif req.method == "normalize":
             result = Normalize().fit_transform([img])[0]
             result = (result * 255).astype(np.uint8)
@@ -81,8 +84,6 @@ def processar_imagem(req: ProcessRequest):
             result = CLAHE_Color().fit_transform([img])[0]
         elif req.method == "otsu":
             result = OtsuThreshold().fit_transform([img])[0]
-        elif req.method == "histogram":
-            result = HistogramEqualization().fit_transform([img])[0]
         elif req.method == "morphological":
             result = MorphologicalTransform().fit_transform([img])[0]
         elif req.method == "edge":

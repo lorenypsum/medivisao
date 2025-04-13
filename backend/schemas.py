@@ -26,10 +26,10 @@ class ImagemBase(BaseModel):
     original: Optional[str] = None
     resize: Optional[str] = None
     normalize: Optional[str] = None
+    histogram: Optional[str] = None
     gaussian: Optional[str] = None
     clahe: Optional[str] = None
     otsu: Optional[str] = None
-    histogram: Optional[str] = None
     morphological: Optional[str] = None
     edge: Optional[str] = None
     resultado_final: Optional[str] = None
