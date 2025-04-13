@@ -91,13 +91,14 @@ async def submeter_para_analise(event):
             window.localStorage.setItem("saliency_image", result["resultado_final"])
             window.localStorage.setItem("diagnostico", result["diagnostico"])
             window.localStorage.setItem("probabilidade", result["probabilidade"])
+            window.alert("sucesso")
 
         else:
             window.alert("Erro na análise: " + await response.text())
 
     except Exception as e:
+        print(e)
         window.alert(f"Erro ao enviar para análise: {e}")
-        console.log(e)
 
 
 # Salvar no banco de dados (FastAPI)
