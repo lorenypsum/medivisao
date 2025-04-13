@@ -66,7 +66,7 @@ async def submeter_para_analise(event):
             window.alert("Nenhuma imagem capturada.")
             return
 
-        payload = {"image_base64": image_data}
+        payload = {"image_base64": image_data, "usuario_id": window.sessionStorage.getItem("usuario_id") or "123"}
 
         response = await fetch(
             "http://localhost:8000/analisar-imagem",

@@ -82,6 +82,7 @@ preprocess_pipeline = Pipeline(
 # Modelo de requisição
 class AnalysisRequest(BaseModel):
     image_base64: str
+    usuario_id: str
 
 
 @app.post("/analisar-imagem")
@@ -164,8 +165,7 @@ async def analisar_imagem_backend(
             )
         )
 
-        # TODO
-        usuario_id = "a"
+        usuario_id = request.usuario_id
 
         # Salvar no banco
         nova = models.Imagem(
