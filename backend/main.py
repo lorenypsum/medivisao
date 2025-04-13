@@ -25,6 +25,14 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+# Dependência de sessão com banco
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
 # CORS para frontend em HTML + PyScript
 app.add_middleware(
     CORSMiddleware,
@@ -89,16 +97,6 @@ def processar_imagem(req: ProcessRequest):
 @app.post("/imagens", response_model=schemas.ImagemResponse)
 def salvar_ou_atualizar(imagem: schemas.ImagemCreate, db: Session = Depends(get_db)):
     return crud.salvar_ou_atualizar_imagem(db, imagem)
-
-
-# Dependência de sessão com banco
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
 
 @app.post("/usuarios", response_model=schemas.UsuarioResponse)
 def criar_usuario(usuario: schemas.UsuarioCreate, db: Session = Depends(get_db)):
