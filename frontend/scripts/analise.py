@@ -76,7 +76,7 @@ async def submeter_para_analise(event):
         )
 
         if response.ok:
-            result = await response.json()
+            result = (await response.json()).to_py()
 
             # Atualiza galeria
             document.getElementById("resultado").classList.remove("hidden")
@@ -85,16 +85,15 @@ async def submeter_para_analise(event):
                 f"({round(result['probabilidade']*100, 2)}%)"
             )
 
-            document.getElementById("saliency-img").src = result["mapa_saliencia"]
+            document.getElementById("saliency-img").src = result["resultado_final"]
 
             # Salva temporariamente no localStorage
-            window.localStorage.setItem("saliency_image", result["mapa_saliencia"])
+            window.localStorage.setItem("saliency_image", result["resultado_final"])
             window.localStorage.setItem("diagnostico", result["diagnostico"])
             window.localStorage.setItem("probabilidade", result["probabilidade"])
 
         else:
-            window.alert("Erro na análise.")
-            console.log(await response.text())
+            window.alert("Erro na análise: " + await response.text())
 
     except Exception as e:
         window.alert(f"Erro ao enviar para análise: {e}")

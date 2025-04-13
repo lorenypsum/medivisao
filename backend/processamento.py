@@ -2,6 +2,7 @@
 import cv2
 import numpy as np
 from sklearn.base import BaseEstimator, TransformerMixin
+import tensorflow as tf
 
 
 class Resize(BaseEstimator, TransformerMixin):
@@ -127,47 +128,6 @@ class MorphologicalTransform(BaseEstimator, TransformerMixin):
                 raise ValueError("Operação morfológica inválida")
         return transformed_images
 
-
-class SaliencyMap(BaseEstimator, TransformerMixin):
-    def __init__(self, method="fine_grained"):
-        self.method = method
-
-    def fit(self, X, y=None):
-        return self
-
-    def transform(self, X):
-        saliency_maps = []
-        for img in X:
-            if self.method == "fine_grained":
-                saliency = cv2.saliency.StaticSaliencyFineGrained_create()
-            elif self.method == "spectral_residual":
-                saliency = cv2.saliency.StaticSaliencySpectralResidual_create()
-            else:
-                raise ValueError("Método de mapa de saliência inválido")
-            _, saliency_map = saliency.computeSaliency(img)
-            saliency_maps.append(saliency_map)
-        return saliency_maps
-
-
-class VisualizeSaliency(BaseEstimator, TransformerMixin):
-    def __init__(self, method="fine_grained"):
-        self.method = method
-
-    def fit(self, X, y=None):
-        return self
-
-    def transform(self, X):
-        saliency_maps = []
-        for img in X:
-            if self.method == "fine_grained":
-                saliency = cv2.saliency.StaticSaliencyFineGrained_create()
-            elif self.method == "spectral_residual":
-                saliency = cv2.saliency.StaticSaliencySpectralResidual_create()
-            else:
-                raise ValueError("Método de visualização de saliência inválido")
-            _, saliency_map = saliency.computeSaliency(img)
-            saliency_maps.append(saliency_map)
-        return saliency_maps
 
 
 class MorphologicalOperations(BaseEstimator, TransformerMixin):
