@@ -60,8 +60,7 @@ class ProcessRequest(BaseModel):
 
 # Carregando modelo e pipeline
 # Debugging: Print the current working directory
-print("Current working directory:", os.getcwd())
-model = keras.models.load_model(os.getcwd() + "/kerasmodel/skin_cancer.keras")
+model = keras.models.load_model(os.getcwd() + "/backend/kerasmodel/skin_cancer.keras")
 
 preprocess_pipeline = Pipeline(
     [

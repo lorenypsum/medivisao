@@ -4,7 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 # Use environment variable for database URL, defaulting to SQLite for local development
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./medivisao.db")
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./backend/medivisao.db")
 
 engine = create_engine(
     DATABASE_URL,
