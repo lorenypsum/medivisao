@@ -41,23 +41,24 @@ def deletar_imagem(db: Session, imagem_id: str):
     return False
 
 def salvar_ou_atualizar_imagem(db: Session, imagem: schemas.ImagemCreate):
-    existente = db.query(models.Imagem).filter(models.Imagem.usuario_id == imagem.usuario_id).first()
-    
-    if existente:
-        existente.original = imagem.original
-        existente.resize = imagem.resize
-        existente.normalize = imagem.normalize
-        existente.gaussian = imagem.gaussian
-        existente.clahe = imagem.clahe
-        existente.otsu = imagem.otsu
-        existente.resultado_final = imagem.resultado_final
-        existente.diagnostico = imagem.diagnostico
-        existente.probabilidade = imagem.probabilidade
-        existente.metadados = imagem.metadados
-    else:
-        existente = models.Imagem(**imagem.dict())
-        db.add(existente)
+    from models import Imagem
+    existing = (
+        db.query(Imagem)
+        .filter(Imagem.usuario_id == imagem.usuario_id)
+        .order_by(Imagem.data.desc())
+        .first()
+    )
 
-    db.commit()
-    db.refresh(existente)
-    return existente
+    if existing:
+        for campo, valor in imagem.dict().items():
+            setattr(existing, campo, valor)
+        db.commit()
+        db.refresh(existing)
+        return existing
+    else:
+        nova = Imagem(**imagem.dict())
+        db.add(nova)
+        db.commit()
+        db.refresh(nova)
+        return nova
+
