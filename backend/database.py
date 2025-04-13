@@ -1,5 +1,5 @@
 import os
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, MetaData
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -12,5 +12,7 @@ engine = create_engine(
         {"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
     ),
 )
+metadata = MetaData()
+metadata.create_all(engine)
 SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 Base = declarative_base()
