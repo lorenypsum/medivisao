@@ -28,7 +28,7 @@ class Imagem(Base):
     clahe = Column(Text)
     otsu = Column(Text)
     morphological = Column(Text)
-    edgedetection = Column(Text)
+    edge = Column(Text)
     resultado_final = Column(Text)
     diagnostico = Column(String)
     probabilidade = Column(Float)
