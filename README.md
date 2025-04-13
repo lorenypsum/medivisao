@@ -46,6 +46,12 @@ pip install -r requirements.txt
 
 ```
 
+## Rodar o Servidor:
+
+```bash
+main:app --app-dir backend
+```
+
 ## Visualização no Browser:
 
 Para visualizar a aplicaçao no browser, você precisa abrir o arquivo `index.html` no seu navegador. Você pode fazer isso de várias maneiras:
