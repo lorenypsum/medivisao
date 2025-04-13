@@ -1,23 +1,26 @@
 from js import document, window, console, fetch
 from pyodide.ffi import to_js
 from pyscript import when
-import base64
 import json
 
 video = document.getElementById("webcam")
 canvas = document.createElement("canvas")
 
+
 # Ativar câmera
 @when("click", "#abrir-camera")
 async def abrir_camera(event):
     try:
-        stream = await window.navigator.mediaDevices.getUserMedia(to_js({"video": True}))
+        stream = await window.navigator.mediaDevices.getUserMedia(
+            to_js({"video": True})
+        )
         video.srcObject = stream
         video.classList.remove("hidden")
         document.getElementById("capturar-foto").classList.remove("hidden")
     except Exception as e:
         window.alert(f"Erro ao acessar a câmera: {e}")
         console.log(e)
+
 
 # Capturar foto
 @when("click", "#capturar-foto")
@@ -42,6 +45,7 @@ def capturar_foto(event):
     video.classList.add("hidden")
     document.getElementById("capturar-foto").classList.add("hidden")
 
+
 # Download local
 @when("click", "#download")
 def baixar_imagem(event):
@@ -51,28 +55,25 @@ def baixar_imagem(event):
     link.download = "imagem_capturada.jpg"
     link.click()
 
+
 # Submeter para análise (Flask)
 @when("click", "#analise")
 async def submeter_para_analise(event):
     try:
+        # Converte a imagem capturada para base64
         image_data = window.localStorage.getItem("captura")
         if not image_data:
             window.alert("Nenhuma imagem capturada.")
             return
 
-        # Converte base64 para blob (file-like object)
-        base64_data = image_data.split(",")[1]
-        blob = window.atob(base64_data)
-        array = to_js([ord(c) for c in blob], dict_converter=window.Uint8Array)
-        file = window.Blob.new([array], { "type": "image/jpeg" })
+        payload = {"image_base64": image_data}
 
-        form = window.FormData.new()
-        form.append("file", file, "imagem.jpg")
-
-        response = await fetch("http://localhost:5000/predict", {
-            "method": "POST",
-            "body": form
-        })
+        response = await fetch(
+            "http://localhost:8000/analisar-imagem",
+            method="POST",
+            body=json.dumps(payload),
+            headers=to_js({"Content-Type": "application/json"}),
+        )
 
         if response.ok:
             result = await response.json()
@@ -80,18 +81,16 @@ async def submeter_para_analise(event):
             # Atualiza galeria
             document.getElementById("resultado").classList.remove("hidden")
             document.getElementById("resultado-texto").innerText = (
-                f"Diagnóstico: {result['prediction']['class'].capitalize()} "
-                f"({round(result['prediction']['probability']*100, 2)}%)"
+                f"Diagnóstico: {result['diagnostico'].capitalize()} "
+                f"({round(result['probabilidade']*100, 2)}%)"
             )
 
-            document.getElementById("saliency-img").src = f"data:image/jpeg;base64,{result['saliency_image']}"
-            document.getElementById("preprocess-img").src = f"data:image/jpeg;base64,{result['preprocess_steps_image']}"
+            document.getElementById("saliency-img").src = result["mapa_saliencia"]
 
             # Salva temporariamente no localStorage
-            window.localStorage.setItem("saliency_image", f"data:image/jpeg;base64,{result['saliency_image']}")
-            window.localStorage.setItem("preprocess_image", f"data:image/jpeg;base64,{result['preprocess_steps_image']}")
-            window.localStorage.setItem("diagnostico", result['prediction']['class'])
-            window.localStorage.setItem("probabilidade", result['prediction']['probability'])
+            window.localStorage.setItem("saliency_image", result["mapa_saliencia"])
+            window.localStorage.setItem("diagnostico", result["diagnostico"])
+            window.localStorage.setItem("probabilidade", result["probabilidade"])
 
         else:
             window.alert("Erro na análise.")
@@ -100,6 +99,7 @@ async def submeter_para_analise(event):
     except Exception as e:
         window.alert(f"Erro ao enviar para análise: {e}")
         console.log(e)
+
 
 # Salvar no banco de dados (FastAPI)
 @when("click", "#salvar-resultado")
@@ -126,14 +126,14 @@ async def salvar_resultado(event):
             "otsu": None,
             "histogram": None,
             "morphological": None,
-            "edgedetection": None
+            "edgedetection": None,
         }
 
         response = await fetch(
             "http://localhost:8000/imagens",
             method="POST",
             body=json.dumps(payload),
-            headers=to_js({"Content-Type": "application/json"})
+            headers=to_js({"Content-Type": "application/json"}),
         )
 
         if response.ok:
