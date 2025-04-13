@@ -42,7 +42,16 @@ class ImagemCreate(ImagemBase):
 
 class ImagemResponse(ImagemBase):
     id: str
+    usuario_id: str
+    original: Optional[str]
+    resultado_final: Optional[str]
+    metadados: Optional[str]
+    diagnostico: Optional[str]
+    probabilidade: Optional[float]
     data: datetime
+
+    class Config:
+        from_attributes = True
 
     class Config:
         from_attributes = True

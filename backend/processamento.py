@@ -110,6 +110,63 @@ class MorphologicalTransform(BaseEstimator, TransformerMixin):
                 raise ValueError("Operação morfológica inválida")
         return transformed_images
 
+class SaliencyMap(BaseEstimator, TransformerMixin):
+    def __init__(self, method='fine_grained'):
+        self.method = method
+
+    def fit(self, X, y=None): return self
+
+    def transform(self, X):
+        saliency_maps = []
+        for img in X:
+            if self.method == 'fine_grained':
+                saliency = cv2.saliency.StaticSaliencyFineGrained_create()
+            elif self.method == 'spectral_residual':
+                saliency = cv2.saliency.StaticSaliencySpectralResidual_create()
+            else:
+                raise ValueError("Método de mapa de saliência inválido")
+            _, saliency_map = saliency.computeSaliency(img)
+            saliency_maps.append(saliency_map)
+        return saliency_maps
+
+class VisualizeSaliency(BaseEstimator, TransformerMixin):
+    def __init__(self, method='fine_grained'):
+        self.method = method
+
+    def fit(self, X, y=None): return self
+
+    def transform(self, X):
+        saliency_maps = []
+        for img in X:
+            if self.method == 'fine_grained':
+                saliency = cv2.saliency.StaticSaliencyFineGrained_create()
+            elif self.method == 'spectral_residual':
+                saliency = cv2.saliency.StaticSaliencySpectralResidual_create()
+            else:
+                raise ValueError("Método de visualização de saliência inválido")
+            _, saliency_map = saliency.computeSaliency(img)
+            saliency_maps.append(saliency_map)
+        return saliency_maps
+
+class MorphologicalOperations(BaseEstimator, TransformerMixin):
+    def __init__(self, operation='opening', kernel_size=(5, 5)):
+        self.operation = operation
+        self.kernel_size = kernel_size
+
+    def fit(self, X, y=None): return self
+
+    def transform(self, X):
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, self.kernel_size)
+        transformed_images = []
+        for img in X:
+            if self.operation == 'opening':
+                transformed_images.append(cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel))
+            elif self.operation == 'closing':
+                transformed_images.append(cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel))
+            else:
+                raise ValueError("Operação morfológica inválida")
+        return transformed_images        
+
 class EdgeDetection(BaseEstimator, TransformerMixin):
     def __init__(self, method='canny', low_threshold=100, high_threshold=200):
         self.method = method
