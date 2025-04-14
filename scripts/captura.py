@@ -8,7 +8,7 @@ import os
 
 # Update base URL dynamically based on environment
 BASE_URL = (
-    "https://lorenypsummedivisao.loca.lt"
+    "https://73d4-2804-1b3-a781-4b29-8d0d-3782-26c9-6ad4.ngrok-free.app"
     if "https" in window.location.href
     else "http://localhost:8000"
 )
