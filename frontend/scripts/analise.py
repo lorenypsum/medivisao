@@ -56,7 +56,6 @@ def baixar_imagem(event):
     link.click()
 
 
-# Submeter para análise (Flask)
 @when("click", "#analise")
 async def submeter_para_analise(event):
     try:
@@ -66,7 +65,10 @@ async def submeter_para_analise(event):
             window.alert("Nenhuma imagem capturada.")
             return
 
-        payload = {"image_base64": image_data, "usuario_id": window.sessionStorage.getItem("usuario_id") or "123"}
+        payload = {
+            "image_base64": image_data,
+            "usuario_id": window.sessionStorage.getItem("usuario_id") or "123",
+        }
 
         response = await fetch(
             "http://localhost:8000/analisar-imagem",

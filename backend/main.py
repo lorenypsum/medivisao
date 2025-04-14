@@ -92,6 +92,7 @@ async def analisar_imagem_backend(
 ):
     try:
         # Decodificar a imagem base64
+        usuario_id = request.usuario_id
         img = decode_image(request.image_base64)
         if img is None:
             raise HTTPException(status_code=400, detail="Imagem inválida.")
@@ -164,8 +165,6 @@ async def analisar_imagem_backend(
                 ]
             )
         )
-
-        usuario_id = request.usuario_id
 
         # Salvar no banco
         nova = models.Imagem(
@@ -322,3 +321,25 @@ def obter_imagem(usuario_id: str, db: Session = Depends(get_db)):
     if not imagem:
         raise HTTPException(status_code=404, detail="Imagem não encontrada")
     return imagem
+
+
+@app.post("/login")
+def login(
+    username: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)
+):
+    # Consulta o banco de dados para verificar o usuário
+    usuario = (
+        db.query(models.Usuario).filter(models.Usuario.username == username).first()
+    )
+
+    if not usuario:
+        raise HTTPException(status_code=401, detail="Usuário ou senha incorretos.")
+
+    if usuario.senha != password:
+        raise HTTPException(status_code=401, detail="Usuário ou senha incorretos.")
+
+    return {
+        "usuario": usuario.username,
+        "nome": usuario.nome,
+        "id": usuario.id,
+    }
