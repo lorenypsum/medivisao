@@ -25,6 +25,7 @@ from processamento import (
     MorphologicalTransform,
     EdgeDetection,
     MorphologicalOperations,
+    Watershed
 )
 
 # Cria as tabelas
@@ -174,14 +175,6 @@ async def analisar_imagem_backend(
             metadados=imagem_etapas,
             diagnostico=classe,
             probabilidade=float(prediction),
-            resize=None,
-            normalize=None,
-            gaussian=None,
-            clahe=None,
-            otsu=None,
-            histogram=None,
-            morphological=None,
-            # edgedetection=None,
         )
         db.add(nova)
         db.commit()
@@ -242,6 +235,8 @@ def processar_imagem(req: ProcessRequest):
             result = MorphologicalTransform().fit_transform([img])[0]
         elif req.method == "edge":
             result = EdgeDetection().fit_transform([img])[0]
+        elif req.method == "watershed":
+            result = Watershed().fit_transform([img])[0]
         else:
             raise ValueError("Filtro inválido")
     except Exception as e:

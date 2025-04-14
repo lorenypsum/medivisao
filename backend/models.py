@@ -29,6 +29,7 @@ class Imagem(Base):
     otsu = Column(Text)
     morphological = Column(Text)
     edge = Column(Text)
+    watershed = Column(Text)
     resultado_final = Column(Text)
     diagnostico = Column(String)
     probabilidade = Column(Float)

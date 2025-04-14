@@ -43,6 +43,7 @@ async def carregar_imagem(event):
                 "otsu": None,
                 "morphological": None,
                 "edgedetection": None,
+                "watershed": None,
                 "resultado_final": None,
                 "diagnostico": None,
                 "probabilidade": None,
@@ -156,6 +157,10 @@ async def edge(e):
     await aplicar_filtro("edge", "#btn-edge")
 
 
+@when("click", "#btn-watershed")
+async def watershed(e):
+    await aplicar_filtro("watershed", "#btn-watershed")
+
 # Gera galeria de imagens processadas com botão de download e salvar
 def atualizar_galeria_processadas():
     galeria = document.getElementById("processadas")
@@ -222,6 +227,7 @@ async def salvar_todas_no_banco(event):
             "otsu": processadas.get("otsu"),
             "morphological": processadas.get("morphological"),
             "edgedetection": processadas.get("edge"),
+            "watershed": processadas.get("watershed"),
             "resultado_final": None,
             "diagnostico": None,
             "probabilidade": None,
