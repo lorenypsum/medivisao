@@ -1,12 +1,25 @@
 # Medivisão
 
+Projeto dedicado à detecção precoce de câncer de pele utilizando técnicas de processamento digital de imagens e interface com foco em interação-humano-computacional.
+
 **Github Pages:** [Web Aplicação Medivisão](https://lorenypsum.github.io/medivisao/)
 
 Para acessar a aplicação, utilize as credenciais abaixo:
-**Usuário:** `a`
-**Senha:** `a`
+**Usuário:** `b`
+**Senha:** `b`
 
-Projeto dedicado à detecção precoce de câncer de pele utilizando técnicas de processamento digital de imagens e interface com foco em interação-humano-computacional.
+## Identificação:
+
+**Equipe:** 1
+
+**Membros:**
+Lorena Silva Sampaio - 11201212025
+Samira Haddad - 11201812350
+Larissa Rodrigues de Almeida - 11201812076
+William Fernandes Dias - 11202020043
+
+**Título:** Medivisão - Auxílio ao Diagnóstico de Câncer de Pele
+**Data de Publicação::** 13 de Abril de 2025
 
 ## Descrição do Projeto:
 
