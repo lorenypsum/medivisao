@@ -8,7 +8,7 @@ import os
 # Update base URL dynamically based on environment
 BASE_URL = (
     "https://lorenypsummedivisao.loca.lt"
-    if "https" in window.location.host
+    if "https" in window.location.href
     else "http://localhost:8000"
 )
 
