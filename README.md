@@ -42,9 +42,13 @@ Redes neurais profundas têm demonstrado grande potencial na análise de imagens
 As etapas de pré-processamento com PDI visam otimizar a qualidade das imagens e realçar informações relevantes para a detecção, incluindo:
 
 **Tratamento de ruídos:** Redução de artefatos para melhorar a clareza das imagens.
+
 **Filtragem e Convolução:** Aplicação de filtros para destacar bordas e texturas importantes das lesões.
+
 **Realce e Restauração:** Melhoria do contraste e da nitidez para facilitar a visualização de detalhes.
+
 **Ajuste de Histograma:** Otimização da distribuição de cores para melhor análise visual.
+
 **Segmentação:** Isolamento da área da lesão para análise focada.
 
 Embora a implementação de modelos de redes neurais para a classificação final das lesões possa ser um objetivo futuro, o foco inicial deste repositório é demonstrar como as técnicas de processamento digital de imagens podem ser aplicadas para eficazmente em imagens de câncer de pele, preparando-as para uma análise mais aprofundada com inteligência artificial. 
