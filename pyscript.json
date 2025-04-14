@@ -1,8 +1,5 @@
 {
-    "packages": [
-        "networkx",
-        "matplotlib"
-    ],
+    "packages": [],
     "fetch": [{
         "files": [
             "./scripts/analise.py",
