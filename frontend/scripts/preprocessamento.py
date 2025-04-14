@@ -52,11 +52,13 @@ async def carregar_imagem(event):
             body = json.dumps(payload)
             r = await fetch(
                 "http://localhost:8000/imagens",
-                to_js({
-                    "method": "POST",
-                    "body": body,
-                    "headers": {"Content-Type": "application/json"},
-                }),
+                to_js(
+                    {
+                        "method": "POST",
+                        "body": body,
+                        "headers": {"Content-Type": "application/json"},
+                    }
+                ),
                 # method="POST",
                 # body=body,
                 # headers=to_js({"Content-Type": "application/json"}),
@@ -111,15 +113,18 @@ async def aplicar_filtro(filtro, append_after_id):
         window.alert(f"Erro ao processar imagem: {e}")
         console.log(e)
 
+
 # Ações por filtro
 @when("click", "#btn-resize")
 async def resize(e):
     await aplicar_filtro("resize", "#btn-resize")
 
+
 # Ações por filtro
 @when("click", "#btn-histogram")
 async def histogram(e):
     await aplicar_filtro("histogram", "#btn-histogram")
+
 
 @when("click", "#btn-normalize")
 async def normalize(e):
@@ -140,9 +145,11 @@ async def clahe(e):
 async def otsu(e):
     await aplicar_filtro("otsu", "#btn-otsu")
 
+
 @when("click", "#btn-morphological")
 async def morphological(e):
     await aplicar_filtro("morphological", "#btn-morphological")
+
 
 @when("click", "#btn-edge")
 async def edge(e):
@@ -185,13 +192,15 @@ def atualizar_galeria_processadas():
 
         galeria.appendChild(card)
 
+
 # Faz download
-def baixar_imagem(data_url, nome):
+def baixar_imagem(data_url, name):
     link = document.createElement("a")
     link.href = data_url
-    link.download = f"{nome}.png"
+    link.download = f"{name}.png"
     link.click()
-    console.log("Imagem baixada:", nome)
+    console.log("Imagem baixada:", name)
+
 
 @when("click", "#btn-salvar-tudo")
 async def salvar_todas_no_banco(event):
@@ -223,7 +232,7 @@ async def salvar_todas_no_banco(event):
             "http://localhost:8000/imagens",
             method="POST",
             body=json.dumps(payload),
-            headers=to_js({"Content-Type": "application/json"})
+            headers=to_js({"Content-Type": "application/json"}),
         )
 
         if response.ok:
@@ -237,6 +246,7 @@ async def salvar_todas_no_banco(event):
         console.log("❌ Exceção ao salvar todas:", e)
         window.alert(f"Erro ao salvar imagens: {e}")
 
+
 async def atualizar_galeria_processadas_backend():
     try:
         usuario_id = window.sessionStorage.getItem("usuario_id") or "123"
@@ -249,13 +259,21 @@ async def atualizar_galeria_processadas_backend():
     except Exception as e:
         console.log("❌ Erro ao buscar imagem do banco:", e)
 
+
 def mostrar_resultado_backend(imagem_obj):
     galeria = document.getElementById("processadas")
     galeria.innerHTML = ""
 
     filtros = [
-        "original", "resize", "histogram", "normalize",
-        "gaussian", "clahe", "otsu", "morphological", "edgedetection"
+        "original",
+        "resize",
+        "histogram",
+        "normalize",
+        "gaussian",
+        "clahe",
+        "otsu",
+        "morphological",
+        "edgedetection",
     ]
 
     for filtro in filtros:

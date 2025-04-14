@@ -1,30 +1,46 @@
 from js import document, window
 from pyscript import when
+from pyodide.ffi import to_js
+import asyncio
 
-usuarios = {
-    "medico": {"senha": "111", "perfil": "médico", "nome": "Dra. Helena"},
-    "a": {"senha": "a", "perfil": "médico", "nome": "Dr. Xavier"},
-    "enfermeiro": {"senha": "111", "perfil": "enfermeiro", "nome": "Maria"},
-    "paciente": {"senha": "111", "perfil": "paciente", "nome": "Carlos"},
-    "admin": {"senha": "111", "perfil": "administrador", "nome": "Ana"},
-}
 
 @when("click", "#login-btn")
-def fazer_login(event):
+async def fazer_login(event):
     usuario = document.getElementById("usuario").value
     senha = document.getElementById("senha").value
 
-    # Verifica se o usuário e senha estão corretos
-    if usuario in usuarios and usuarios[usuario]["senha"] == senha:
-        perfil = usuarios[usuario]["perfil"]
-        nome = usuarios[usuario]["nome"]
-        window.sessionStorage.setItem("usuario", usuario)
-        window.sessionStorage.setItem("perfil", perfil)
-        window.sessionStorage.setItem("nome", nome)
-        window.location.href = "home.html"
-    elif not usuario:
+    if not usuario:
         window.alert("Preencha o campo usuário.")
-    elif not senha:
-        window.alert("Preencha o campo senha.")    
-    else:
-        window.alert("Usuário ou senha incorretos.")
+        return
+
+    if not senha:
+        window.alert("Preencha o campo senha.")
+        return
+
+    try:
+        response = await window.fetch(
+            "http://127.0.0.1:8000/login",
+            to_js(
+                {
+                    "method": "POST",
+                    "headers": {"Content-Type": "application/x-www-form-urlencoded"},
+                    "body": f"username={usuario}&password={senha}",
+                }
+            ),
+        )
+
+        if response.status == 200:
+            data = (await response.json()).to_py()
+            window.sessionStorage.setItem("usuario", data["usuario"])
+            window.sessionStorage.setItem("name", data["name"])
+            window.sessionStorage.setItem("usuario_id", data["id"])
+            window.location.href = "home.html"
+        elif response.status == 400:
+            window.alert("Preencha todos os campos corretamente.")
+        elif response.status == 401:
+            window.alert("Usuário ou senha incorretos.")
+        else:
+            window.alert("Erro desconhecido. Tente novamente mais tarde.")
+
+    except Exception as e:
+        window.alert(f"Erro ao conectar ao servidor: {e}")

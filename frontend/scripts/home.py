@@ -1,16 +1,14 @@
 from js import document, window
 from pyscript import when
 
+if not window.sessionStorage.getItem("usuario_id"):
+    window.location.href = "index.html"
 # Mostra dados do usuário armazenados no login
-usuario = window.sessionStorage.getItem("usuario")
-perfil = window.sessionStorage.getItem("perfil")
-nome = window.sessionStorage.getItem("nome")
+usuario = window.sessionStorage.getItem("usuario_id")
+name = window.sessionStorage.getItem("name")
 
-if not usuario or not perfil:
-    window.location.href = "home.html"
+document.getElementById("user-name").innerText = name
 
-document.getElementById("user-nome").innerText = nome
-document.getElementById("user-perfil").innerText = perfil.capitalize()
 
 @when("click", "#logout-btn")
 def sair(_):

@@ -335,11 +335,32 @@ def login(
     if not usuario:
         raise HTTPException(status_code=401, detail="Usuário ou senha incorretos.")
 
-    if usuario.senha != password:
+    if usuario.password != password:
         raise HTTPException(status_code=401, detail="Usuário ou senha incorretos.")
 
     return {
         "usuario": usuario.username,
-        "nome": usuario.nome,
+        "name": usuario.name,
+        "id": usuario.id,
+    }
+
+
+@app.post("/cadastro")
+def cadastro(
+    username: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)
+):
+    # Consulta o banco de dados para verificar o usuário
+    usuario = models.Usuario(
+        name=username,
+        username=username,
+        password=password,
+    )
+    db.add(usuario)
+    db.commit()
+    db.refresh(usuario)
+
+    return {
+        "usuario": usuario.username,
+        "name": usuario.name,
         "id": usuario.id,
     }
