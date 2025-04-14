@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Análise de Imagens| MediVisão</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://pyscript.net/releases/2025.3.1/core.css"
+    />
+    <script
+      type="module"
+      src="https://pyscript.net/releases/2025.3.1/core.js"
+    ></script>
+  </head>
+
+  <body class="flex min-h-screen text-gray-800 bg-gray-100">
+    <!-- MENU LATERAL -->
+    <div id="sidebar"></div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="flex-1 p-10">
+      <h1 class="text-3xl text-[#7DA584] mb-6">Análise de Imagem</h1>
+
+      <!-- Captura de Imagem -->
+      <div class="flex-col gap-10 items-center p-5">
+        <h2 class="text-[#7DA584] font-medium mb-2">1. Capture a Imagem:</h2>
+        <p class="text-gray-600 mb-6">
+          Capture uma imagem usando a câmera do seu dispositivo e visualize-a
+          abaixo.
+        </p>
+
+        <div class="flex flex-col md:flex-row gap-10 items-start">
+          <!-- WEBCAM -->
+          <div class="flex flex-col items-center">
+            <video
+              id="webcam"
+              autoplay
+              class="w-96 h-72 rounded shadow"
+            ></video>
+            <div class="flex flex-col gap-2 mt-4">
+              <button
+                id="abrir-camera"
+                class="px-4 py-2 bg-[#7DA584] text-white font-semibold rounded hover:bg-[#45745e]"
+              >
+                <i class="fas fa-play"></i> Ativar Câmera
+              </button>
+              <button
+                id="capturar-foto"
+                class="px-4 py-2 bg-[#7DA584] text-white font-semibold rounded hover:bg-[#5b8f79] hidden"
+              >
+                <i class="fas fa-camera"></i> Capturar Foto
+              </button>
+            </div>
+          </div>
+
+          <!-- PRÉVIA -->
+          <div class="flex gap-4">
+            <h2 class="text-[#7DA584] font-medium mb-2">Prévia da Imagem:</h2>
+            <div class="flex flex-col md:flex-row gap-10 items-start">
+              <!-- WEBCAM -->
+              <div class="flex flex-col items-center">
+                <img
+                  id="preview"
+                  class="w-96 h-72 rounded border border-gray-300 object-contain bg-white"
+                  src=""
+                />
+                <div class="flex flex-col gap-2 mt-4">
+                  <button
+                    id="download"
+                    class="px-4 py-2 bg-[#7DA584] text-white font-semibold rounded hover:bg-[#45745e] hidden"
+                  >
+                    <i class="fas fa-download"></i> Download
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Análise de Imagem -->
+      <div class="flex-col gap-10 items-center p-5">
+        <h2 class="text-[#7DA584] font-medium mb-2">2. Análise de Imagem:</h2>
+        <p class="text-gray-600 mb-6">
+          Submeta a imagem capturada para análise.
+        </p>
+
+        <div class="flex flex-col gap-2 mt-4">
+          <button
+            id="analise"
+            class="px-4 py-2 bg-[#7DA584] text-white font-semibold rounded hover:bg-[#45745e] hidden"
+          >
+            <i class="fas fa-gears"></i> Submeter para Análise
+          </button>
+        </div>
+      </div>
+
+      <!-- Resultado da análise -->
+      <div id="resultado" class="mt-8 hidden">
+        <h2 class="text-2xl font-bold text-[#7DA584] mb-4">
+          Resultado da Análise
+        </h2>
+        <p id="resultado-texto" class="text-gray-800 text-lg mb-4"></p>
+
+        <div class="flex gap-6 flex-wrap">
+          <div>
+            <h3 class="text-[#7DA584] font-semibold mb-2">Mapa de Saliência</h3>
+            <img id="saliency-img" class="border rounded w-96 shadow" />
+          </div>
+        </div>
+
+        <button
+          id="salvar-resultado"
+          class="mt-6 px-4 py-2 bg-blue-800 text-white rounded hover:bg-blue-900 shadow"
+        >
+          <i class="fas fa-save"></i> Salvar Resultado
+        </button>
+      </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="sidebar.js"></script>
+    <script type="py" src="../scripts/analise.py"></script>
+  </body>
+</html>

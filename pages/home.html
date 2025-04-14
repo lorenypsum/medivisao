@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Home | MediVisão</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://pyscript.net/releases/2025.3.1/core.css"
+    />
+    <script
+      type="module"
+      src="https://pyscript.net/releases/2025.3.1/core.js"
+    ></script>
+  </head>
+
+  <body class="flex min-h-screen text-gray-800 bg-gray-100">
+    <!-- MENU LATERAL -->
+    <div id="sidebar"></div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="flex-1 p-10">
+      <h1 class="text-3xl text-[#7DA584] mb-4">
+        Bem-vindo ao MediVisão 👋
+      </h1>
+      <p class="text-lg">
+        Sua plataforma de apoio ao diagnóstico por imagem com inteligência
+        artificial.
+      </p>
+      <img
+        src="../assets/drawing.png"
+        alt="MediVisão Ilustração"
+        class="mt-8 max-w-md"
+      />
+    </main>
+    
+    <!-- Scripts -->
+    <script src="./sidebar.js"></script>
+    <script type="py" src="../scripts/home.py"></script>
+  </body>
+</html>

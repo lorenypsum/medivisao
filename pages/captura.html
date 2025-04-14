@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Captura de Imagem | MediVisão</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://pyscript.net/releases/2025.3.1/core.css"
+    />
+    <script
+      type="module"
+      src="https://pyscript.net/releases/2025.3.1/core.js"
+    ></script>
+  </head>
+
+  <body class="flex min-h-screen text-gray-800 bg-gray-100">
+    <!-- MENU LATERAL -->
+    <div id="sidebar"></div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="flex-1 p-10">
+      <h1 class="text-3xl text-[#7DA584] mb-6">Captura de Imagem</h1>
+      <p class="text-gray-600 mb-6">
+        Capture uma imagem usando a câmera do seu dispositivo e visualize-a
+        abaixo.
+      </p>
+      <p class="text-gray-600 mb-6">
+        Você pode baixar ou salvar no banco de dados a imagem capturada.
+      </p>
+
+      <div class="flex flex-col md:flex-row gap-10 items-start">
+        <!-- WEBCAM -->
+        <div class="flex flex-col items-center">
+          <video id="webcam" autoplay class="w-96 h-72 rounded shadow"></video>
+          <div class="flex flex-col gap-2 mt-4">
+            <button
+              id="abrir-camera"
+              class="px-4 py-2 bg-[#7DA584] text-white font-semibold rounded hover:bg-[#45745e]"
+            >
+              <i class="fas fa-play"></i> Ativar Câmera
+            </button>
+            <button
+              id="capturar-foto"
+              class="px-4 py-2 bg-[#7DA584] text-white font-semibold rounded hover:bg-[#5b8f79] hidden"
+            >
+              <i class="fas fa-camera"></i> Capturar Foto
+            </button>
+          </div>
+        </div>
+
+        <!-- PRÉVIA -->
+        <div class="flex gap-4">
+          <h2 class="text-[#7DA584] font-medium mb-2">Prévia da Imagem:</h2>
+          <div class="flex flex-col md:flex-row gap-10 items-start">
+            <!-- WEBCAM -->
+            <div class="flex flex-col items-center">
+              <img
+                id="preview"
+                class="w-96 h-72 rounded border border-gray-300 object-contain bg-white"
+                src=""
+              />
+              <div class="flex flex-col gap-2 mt-4">
+                <button
+                  id="download"
+                  class="px-4 py-2 bg-[#7DA584] text-white font-semibold rounded hover:bg-[#45745e] hidden"
+                >
+                  <i class="fas fa-download"></i> Download
+                </button>
+                <button
+                  id="save_backend"
+                  class="px-4 py-2 bg-[#7DA584] text-white font-semibold rounded hover:bg-[#5b8f79] hidden"
+                >
+                  <i class="fas fa-save"></i> Salvar Imagem
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="mt-10">
+        <h2 class="text-xl font-semibold text-[#7DA584] mb-4">
+          Minhas Imagens:
+        </h2>
+        <div
+          id="galeria-imagens"
+          class="grid grid-cols-2 md:grid-cols-3 gap-4"
+        ></div>
+      </section>
+
+      <p class="text-gray-600 mb-6">
+        Submeta a imagem na página de
+        <a
+          href="preprocessamento.html"
+          class="text-orange-300 hover:text-orange-500"
+        >
+          pré-processamento</a
+        >
+        ou na
+        <a href="analise.html" class="text-orange-300 hover:text-orange-500"
+          >página de análise</a
+        >.
+      </p>
+      <div class="flex flex-col gap-4 max-w-60">
+        <a
+          href="preprocessamento.html"
+          class="px-4 py-2 bg-[#7DA584] text-white font-semibold rounded hover:bg-[#45745e] mb-6"
+          >Pré-Processamento</a
+        >
+
+        <a
+          href="analise.html"
+          class="px-4 py-2 bg-[#7DA584] text-white font-semibold rounded hover:bg-[#45745e] mb-6"
+          >Análise
+        </a>
+      </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="sidebar.js"></script>
+    <script type="py" src="../scripts/captura.py"></script>
+  </body>
+</html>

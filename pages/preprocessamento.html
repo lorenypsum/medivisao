@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Análise de Imagem | MediVisão</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2025.3.1/core.css" />
+    <script type="module" src="https://pyscript.net/releases/2025.3.1/core.js"></script>
+  </head>
+
+  <body class="flex min-h-screen text-gray-800 bg-gray-100">
+    <!-- MENU LATERAL -->
+    <div id="sidebar" class="w-64 bg-white shadow-md"></div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="flex-1 p-10">
+      <h1 class="text-3xl text-[#7DA584] mb-4 font-bold">Pré-Processamento</h1>
+      <p class="text-gray-600 mb-6">
+        Selecione uma imagem e visualize os efeitos de cada métodos de pré-processamento.
+      </p>
+
+      <!-- Upload de Imagem -->
+      <div class="form-group mb-6">
+        <label for="upload" class="block text-lg font-medium text-gray-700">Selecionar Imagem:</label>
+        <input
+          type="file"
+          id="upload"
+          accept="image/*"
+          class="mt-2 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#7DA584] focus:border-[#7DA584]"
+        />
+      </div>
+
+      <!-- Área de pré-visualização -->
+      <div class="flex gap-8 flex-wrap mb-10">
+        <div>
+          <h3 class="text-lg font-semibold mb-2">Imagem Original</h3>
+          <img id="preview-original" class="border border-gray-300 rounded-md shadow-md" style="width: 300px" />
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-2">Resultados</h3>
+          <img id="preview-result" class="border border-gray-300 rounded-md shadow-md" style="width: 300px" />
+        </div>
+      </div>
+
+      <!-- Botões de Processamento -->
+      <div class="flex flex-col max-w-60 gap-4 mt-6 mb-10">
+        <button class="btn-login bg-[#7DA584] text-white py-2 px-4 rounded-md shadow-md hover:bg-[#6b946e]" id="btn-resize">
+          Resize
+        </button>
+        <button class="btn-login bg-[#7DA584] text-white py-2 px-4 rounded-md shadow-md hover:bg-[#6b946e]" id="btn-histogram">
+          Histogram Equalization
+        </button>
+        <button class="btn-login bg-[#7DA584] text-white py-2 px-4 rounded-md shadow-md hover:bg-[#6b946e]" id="btn-normalize">
+          Normalize
+        </button>
+        <button class="btn-login bg-[#7DA584] text-white py-2 px-4 rounded-md shadow-md hover:bg-[#6b946e]" id="btn-blur">
+          Gaussian Blur
+        </button>
+        <button class="btn-login bg-[#7DA584] text-white py-2 px-4 rounded-md shadow-md hover:bg-[#6b946e]" id="btn-clahe">
+          CLAHE
+        </button>
+        <button class="btn-login bg-[#7DA584] text-white py-2 px-4 rounded-md shadow-md hover:bg-[#6b946e]" id="btn-otsu">
+          Otsu
+        </button>
+        <button class="btn-login bg-[#7DA584] text-white py-2 px-4 rounded-md shadow-md hover:bg-[#6b946e]" id="btn-morphological">
+          Morphological Operations
+        </button>
+        <button class="btn-login bg-[#7DA584] text-white py-2 px-4 rounded-md shadow-md hover:bg-[#6b946e]" id="btn-edge">
+          Edge Detection
+        </button>
+        <button class="btn-login bg-[#7DA584] text-white py-2 px-4 rounded-md shadow-md hover:bg-[#6b946e]" id="btn-watershed">
+          Watershed
+        </button>
+      </div>
+
+      <!-- Ações gerais -->
+      <div class="flex flex-col gap-4 max-w-60">
+        <button class="bg-blue-800 text-white px-4 py-2 rounded hover:bg-blue-900 shadow" id="btn-salvar-tudo">
+          <i class="fas fa-save"></i> Salvar todas no banco
+        </button>
+      </div>
+
+      <!-- Galeria de Resultados -->
+      <div class="mt-10">
+        <h2 class="text-xl font-bold mb-4 text-[#7DA584]">Imagens Processadas</h2>
+        <div id="processadas" class="flex flex-wrap gap-6"></div>
+      </div>
+    </main>
+
+    <script src="sidebar.js"></script>
+    <py-script type="py" src="../scripts/preprocessamento.py"></py-script>
+  </body>
+</html>
