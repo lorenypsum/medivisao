@@ -1,14 +1,6 @@
 {
     "packages": [],
     "fetch": [{
-        "files": [
-            "./scripts/analise.py",
-            "./scripts/cadastro.py",
-            "./scripts/captura.py",
-            "./scripts/home.py",
-            "./scripts/index.py",
-            "./scripts/perfil.py",
-            "./scripts/preprocessamento.py"
-        ]
+        "files": []
     }]
 }
