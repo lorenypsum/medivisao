@@ -7,4 +7,4 @@ __pycache__/
 *.log
 .env
 .DS_Store
-*.db
+backend/*.db
