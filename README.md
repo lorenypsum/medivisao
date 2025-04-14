@@ -14,6 +14,10 @@ Alternativamente para fins de teste utilize as credenciais abaixo:
 
 **Senha:** `b`
 
+**Processamento:** [Collab do projeto.](https://github.com/samyhad/skin_cancer_detection)
+
+Onde está o collab com funções utilizadas no processamento de imagem, importação de dataset e treinamento de modelo de AI, e os resultados da testagem do modelo.
+
 ## Identificação:
 
 **Equipe:** 1
