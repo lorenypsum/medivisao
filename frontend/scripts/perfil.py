@@ -1,8 +1,15 @@
+import os
 from js import document, navigator, console, window
 from pyscript import when
 import asyncio
 from pyodide.ffi import to_js
 
+# Update base URL dynamically based on environment
+BASE_URL = (
+    "https://lorenypsummedivisao.loca.lt"
+    if "https" in window.location.host
+    else "http://localhost:8000"
+)
 
 # Simulação de dados de usuário
 usuario_logado = {

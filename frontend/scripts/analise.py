@@ -1,7 +1,15 @@
+import os
 from js import document, window, console, fetch
 from pyodide.ffi import to_js
 from pyscript import when
 import json
+
+# Update base URL dynamically based on environment
+BASE_URL = (
+    "https://lorenypsummedivisao.loca.lt"
+    if "https" in window.location.host
+    else "http://localhost:8000"
+)
 
 video = document.getElementById("webcam")
 canvas = document.createElement("canvas")
@@ -71,7 +79,7 @@ async def submeter_para_analise(event):
         }
 
         response = await fetch(
-            "http://localhost:8000/analisar-imagem",
+            f"{BASE_URL}/analisar-imagem",
             method="POST",
             body=json.dumps(payload),
             headers=to_js({"Content-Type": "application/json"}),
@@ -132,7 +140,7 @@ async def salvar_resultado(event):
         }
 
         response = await fetch(
-            "http://localhost:8000/imagens",
+            f"{BASE_URL}/imagens",
             method="POST",
             body=json.dumps(payload),
             headers=to_js({"Content-Type": "application/json"}),

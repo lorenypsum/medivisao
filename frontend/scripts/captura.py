@@ -4,6 +4,14 @@ from pyscript import when
 import asyncio
 import json
 import js
+import os
+
+# Update base URL dynamically based on environment
+BASE_URL = (
+    "https://lorenypsummedivisao.loca.lt"
+    if "https" in window.location.host
+    else "http://localhost:8000"
+)
 
 video = document.getElementById("webcam")
 canvas = document.createElement("canvas")
@@ -105,7 +113,7 @@ async def save(image_data):
         body_json = json.dumps(payload)
 
         response = await fetch(
-            "http://localhost:8000/imagens",
+            f"{BASE_URL}/imagens",
             method="POST",
             body=body_json,
             headers=to_js({"Content-Type": "application/json"}),
@@ -133,6 +141,7 @@ async def save(image_data):
         window.alert(f"Erro ao salvar imagem: {e}")
         console.log("Erro ao salvar imagem:", e)
 
+
 # Carrega imagens do backend
 async def carregar_imagem():
     usuario_id = window.sessionStorage.getItem("usuario_id")
@@ -140,11 +149,12 @@ async def carregar_imagem():
         console.warn("Usuário não autenticado.")
         return
     try:
-        r = await js.fetch(f"http://localhost:8000/usuarios/{usuario_id}/imagens")
+        r = await js.fetch(f"{BASE_URL}/usuarios/{usuario_id}/imagens")
         mostrar_imagem(await r.json())
     except Exception as e:
         window.alert(f"Erro ao carregar imagens: {e}")
         console.log("Erro ao carregar imagens:", e)
+
 
 def mostrar_imagem(js_imagem):
     try:
@@ -155,6 +165,7 @@ def mostrar_imagem(js_imagem):
     except Exception as e:
         console.log("❌ Erro ao mostrar imagem:", e)
 
+
 # Carrega imagens do backend
 async def carregar_galeria():
     usuario_id = window.sessionStorage.getItem("usuario_id")
@@ -162,11 +173,12 @@ async def carregar_galeria():
         usuario_id = "123"  # ID padrão para teste
         console.log("❗ Usuário não autenticado")
     try:
-        r = await js.fetch(f"http://localhost:8000/usuarios/{usuario_id}/imagens")
+        r = await js.fetch(f"{BASE_URL}/usuarios/{usuario_id}/imagens")
         mostrar_imagens(await r.json())
     except Exception as e:
         window.alert(f"Erro ao carregar imagens: {e}")
         console.log("Erro ao carregar imagens:", e)
+
 
 def mostrar_imagens(js_imagens):
     try:
@@ -192,7 +204,9 @@ def mostrar_imagens(js_imagens):
             )
 
             id = img.get("id")
-            botao.onclick = lambda _: asyncio.get_event_loop().run_until_complete(deletar_imagem(id))
+            botao.onclick = lambda _: asyncio.get_event_loop().run_until_complete(
+                deletar_imagem(id)
+            )
             container.appendChild(imagem)
             container.appendChild(botao)
             galeria.appendChild(container)
@@ -206,7 +220,7 @@ def mostrar_imagens(js_imagens):
 # Deletar imagem do backend
 async def deletar_imagem(id):
     try:
-        await fetch(f"http://localhost:8000/imagens/{id}", to_js({"method": "DELETE"}))
+        await fetch(f"{BASE_URL}/imagens/{id}", to_js({"method": "DELETE"}))
         await carregar_galeria()
     except Exception as e:
         window.alert(f"Erro ao deletar imagem: {e}")

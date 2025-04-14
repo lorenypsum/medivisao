@@ -1,7 +1,15 @@
+import os
 from js import document, window
 from pyscript import when
 from pyodide.ffi import to_js
 import asyncio
+
+# Update base URL dynamically based on environment
+BASE_URL = (
+    "https://lorenypsummedivisao.loca.lt"
+    if "https" in window.location.host
+    else "http://localhost:8000"
+)
 
 
 @when("click", "#login-btn")
@@ -19,7 +27,7 @@ async def fazer_login(event):
 
     try:
         response = await window.fetch(
-            "http://127.0.0.1:8000/login",
+            f"{BASE_URL}/login",
             to_js(
                 {
                     "method": "POST",

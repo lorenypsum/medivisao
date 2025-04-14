@@ -1,5 +1,13 @@
+import os
 from js import document, window
 from pyscript import when
+
+# Update base URL dynamically based on environment
+BASE_URL = (
+    "https://lorenypsummedivisao.loca.lt"
+    if "https" in window.location.host
+    else "http://localhost:8000"
+)
 
 if not window.sessionStorage.getItem("usuario_id"):
     window.location.href = "index.html"

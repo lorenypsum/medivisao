@@ -3,6 +3,14 @@ from pyscript import when
 from pyodide.ffi import to_js
 import json
 import asyncio
+import os
+
+# Update base URL dynamically based on environment
+BASE_URL = (
+    "https://lorenypsummedivisao.loca.lt"
+    if "https" in window.location.host
+    else "http://localhost:8000"
+)
 
 # Estado: imagem original + processadas
 image_original = None  # Define a global variable to store the uploaded image
@@ -52,7 +60,7 @@ async def carregar_imagem(event):
 
             body = json.dumps(payload)
             r = await fetch(
-                "http://localhost:8000/imagens",
+                f"{BASE_URL}/imagens",
                 to_js(
                     {
                         "method": "POST",
@@ -60,9 +68,6 @@ async def carregar_imagem(event):
                         "headers": {"Content-Type": "application/json"},
                     }
                 ),
-                # method="POST",
-                # body=body,
-                # headers=to_js({"Content-Type": "application/json"}),
             )
             console.log("🗃️ Imagem salva:", await r.json())
 
@@ -85,7 +90,7 @@ async def aplicar_filtro(filtro, append_after_id):
         payload = json.dumps({"image_base64": image_original, "method": filtro})
 
         response = await fetch(
-            "http://localhost:8000/processar",
+            f"{BASE_URL}/processar",
             method="POST",
             body=payload,
             headers=to_js({"Content-Type": "application/json"}),
@@ -161,6 +166,7 @@ async def edge(e):
 async def watershed(e):
     await aplicar_filtro("watershed", "#btn-watershed")
 
+
 # Gera galeria de imagens processadas com botão de download e salvar
 def atualizar_galeria_processadas():
     galeria = document.getElementById("processadas")
@@ -235,7 +241,7 @@ async def salvar_todas_no_banco(event):
         }
 
         response = await fetch(
-            "http://localhost:8000/imagens",
+            f"{BASE_URL}/imagens",
             method="POST",
             body=json.dumps(payload),
             headers=to_js({"Content-Type": "application/json"}),
@@ -256,7 +262,7 @@ async def salvar_todas_no_banco(event):
 async def atualizar_galeria_processadas_backend():
     try:
         usuario_id = window.sessionStorage.getItem("usuario_id") or "123"
-        response = await fetch(f"http://localhost:8000/usuarios/{usuario_id}/imagem")
+        response = await fetch(f"{BASE_URL}/usuarios/{usuario_id}/imagem")
         if response.ok:
             imagem_obj = await response.json()
             mostrar_resultado_backend(imagem_obj)
