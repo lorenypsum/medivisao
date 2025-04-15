@@ -24,9 +24,12 @@ Onde está o collab com funções utilizadas no processamento de imagem, importa
 
 **Membros:**
 
-Lorena Silva Sampaio - 11201212025
+Lorena Silva Sampaio - 11201812025
+
 Samira Haddad - 11201812350
+
 Larissa Rodrigues de Almeida - 11201812076
+
 William Fernandes Dias - 11202020043
 
 **Título:** Medivisão - Auxílio ao Diagnóstico de Câncer de Pele
