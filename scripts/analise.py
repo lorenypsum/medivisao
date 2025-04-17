@@ -1,7 +1,8 @@
 import os
-from js import document, window, console, fetch
+from js import document, window, console, fetch, FileReader
 from pyodide.ffi import to_js
 from pyscript import when
+import asyncio
 import json
 
 # Update base URL dynamically based on environment
@@ -15,97 +16,63 @@ video = document.getElementById("webcam")
 canvas = document.createElement("canvas")
 
 
-# Ativar câmera
-@when("click", "#abrir-camera")
-async def abrir_camera(event):
-    try:
-        stream = await window.navigator.mediaDevices.getUserMedia(
-            to_js({"video": True})
-        )
-        video.srcObject = stream
-        video.classList.remove("hidden")
-        document.getElementById("capturar-foto").classList.remove("hidden")
-    except Exception as e:
-        window.alert(f"Erro ao acessar a câmera: {e}")
-        console.log(e)
-
-
-# Capturar foto
-@when("click", "#capturar-foto")
-def capturar_foto(event):
-    canvas.width = video.videoWidth
-    canvas.height = video.videoHeight
-    ctx = canvas.getContext("2d")
-    ctx.drawImage(video, 0, 0)
-
-    image_data = canvas.toDataURL("image/jpeg")
-    document.getElementById("preview").src = image_data
-    window.localStorage.setItem("captura", image_data)
-
-    # Mostrar botões
-    document.getElementById("download").classList.remove("hidden")
-    document.getElementById("analise").classList.remove("hidden")
-
-    # Desligar câmera
-    stream = video.srcObject
-    if stream:
-        stream.getTracks()[0].stop()
-    video.classList.add("hidden")
-    document.getElementById("capturar-foto").classList.add("hidden")
-
-
-# Download local
-@when("click", "#download")
-def baixar_imagem(event):
-    data = window.localStorage.getItem("captura")
-    link = document.createElement("a")
-    link.href = data
-    link.download = "imagem_capturada.jpg"
-    link.click()
-
-
 @when("click", "#analise")
 async def submeter_para_analise(event):
     try:
-        # Converte a imagem capturada para base64
-        image_data = window.localStorage.getItem("captura")
-        if not image_data:
-            window.alert("Nenhuma imagem capturada.")
+        file_input = document.getElementById("upload")
+        file = file_input.files.to_py().item(0)
+
+        if not file:
+            window.alert("Nenhum arquivo selecionado.")
+            console.log("Nenhum arquivo selecionado.")
             return
 
-        payload = {
-            "image_base64": image_data,
-            "usuario_id": window.sessionStorage.getItem("usuario_id") or "123",
-        }
+        reader = FileReader.new()
 
-        response = await fetch(
-            f"{BASE_URL}/analisar-imagem",
-            method="POST",
-            body=json.dumps(payload),
-            headers=to_js({"Content-Type": "application/json"}),
-        )
+        # Converte a imagem capturada para base64
+        async def on_load():
+            image_data = reader.result
+            document.getElementById("preview").src = image_data
+            if not image_data:
+                window.alert("Nenhuma imagem submetida")
+                return
 
-        if response.ok:
-            result = (await response.json()).to_py()
+            payload = {
+                "image_base64": image_data,
+                "usuario_id": window.sessionStorage.getItem("usuario_id") or "123",
+            }
 
-            # Atualiza galeria
-            document.getElementById("resultado").classList.remove("hidden")
-            document.getElementById("resultado-texto").innerText = (
-                f"Diagnóstico: {result['diagnostico'].capitalize()} "
-                f"({round(result['probabilidade']*100, 2)}%)"
+            response = await fetch(
+                f"{BASE_URL}/analisar-imagem",
+                method="POST",
+                body=json.dumps(payload),
+                headers=to_js({"Content-Type": "application/json"}),
             )
 
-            document.getElementById("saliency-img").src = result["resultado_final"]
+            if response.ok:
+                result = (await response.json()).to_py()
 
-            # Salva temporariamente no localStorage
-            window.localStorage.setItem("saliency_image", result["resultado_final"])
-            window.localStorage.setItem("diagnostico", result["diagnostico"])
-            window.localStorage.setItem("probabilidade", result["probabilidade"])
-            window.alert("sucesso")
+                # Atualiza galeria
+                document.getElementById("resultado").classList.remove("hidden")
+                document.getElementById("resultado-texto").innerText = (
+                    f"Diagnóstico: {result['diagnostico'].capitalize()} "
+                    f"({round(result['probabilidade']*100, 2)}%)"
+                )
 
-        else:
-            window.alert("Erro na análise: " + await response.text())
+                document.getElementById("saliency-img").src = result["resultado_final"]
 
+                # Salva temporariamente no localStorage
+                window.localStorage.setItem("saliency_image", result["resultado_final"])
+                window.localStorage.setItem("diagnostico", result["diagnostico"])
+                window.localStorage.setItem("probabilidade", result["probabilidade"])
+                window.alert("Análise finalizada com sucesso!")
+
+            else:
+                window.alert("Erro na análise: " + await response.text())
+        
+        reader.onload = lambda _: asyncio.get_event_loop().run_until_complete(on_load())
+        reader.readAsDataURL(file)
+                
     except Exception as e:
         print(e)
         window.alert(f"Erro ao enviar para análise: {e}")

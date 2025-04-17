@@ -57,7 +57,6 @@ def capturar_foto(event):
     document.getElementById("capturar-foto").classList.add("hidden")
 
 # Previsualização da imagem ao fazer upload
-# Previsualização da imagem ao fazer upload
 @when("click", "#carregar-imagem")
 def carregar_imagem2(event):
     asyncio.get_event_loop().run_until_complete(carregar_imagem(event))
@@ -66,15 +65,6 @@ async def carregar_imagem(event):
     event.preventDefault()
     global image_original
     try:
-        # file_input = document.getElementById("upload")
-        # file = file_input.files.to_py().item(0)
-
-        # if not file:
-        #     console.log("Nenhum arquivo selecionado.")
-        #     return
-
-        # reader = FileReader.new()
-        
         image_data = window.localStorage.getItem("captura")
         if not image_data:
             window.alert("Nenhuma imagem capturada.")
