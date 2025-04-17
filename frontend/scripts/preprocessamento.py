@@ -12,67 +12,115 @@ BASE_URL = (
     else "http://localhost:8000"
 )
 
-# Estado: imagem original + processadas
-image_original = None  # Define a global variable to store the uploaded image
-processadas = {}  # chave: filtro, valor: base64
+video = document.getElementById("webcam")
+canvas = document.createElement("canvas")
 
+# Estado: imagem original + processadas
+processadas = {}  # chave: filtro, valor: base64
+image_original = None
+
+
+# Ativar câmera
+@when("click", "#abrir-camera")
+async def abrir_camera(event):
+    try:
+        stream = await window.navigator.mediaDevices.getUserMedia(
+            to_js({"video": True})
+        )
+        video.srcObject = stream
+        video.classList.remove("hidden")
+        document.getElementById("capturar-foto").classList.remove("hidden")
+    except Exception as e:
+        window.alert(f"Erro ao acessar a câmera: {e}")
+        console.log(e)
+
+# Capturar foto
+@when("click", "#capturar-foto")
+def capturar_foto(event):
+    canvas.width = video.videoWidth
+    canvas.height = video.videoHeight
+    ctx = canvas.getContext("2d")
+    ctx.drawImage(video, 0, 0)
+
+    image_data = canvas.toDataURL("image/jpeg")
+    document.getElementById("preview").src = image_data
+    window.localStorage.setItem("captura", image_data)
+
+    # Mostrar botões
+    document.getElementById("carregar-imagem").classList.remove("hidden")
+
+    # Desligar câmera
+    stream = video.srcObject
+    if stream:
+        stream.getTracks()[0].stop()
+    video.classList.add("hidden")
+    document.getElementById("capturar-foto").classList.add("hidden")
 
 # Previsualização da imagem ao fazer upload
-@when("change", "#upload")
+# Previsualização da imagem ao fazer upload
+@when("click", "#carregar-imagem")
+def carregar_imagem2(event):
+    asyncio.get_event_loop().run_until_complete(carregar_imagem(event))
+
 async def carregar_imagem(event):
+    event.preventDefault()
     global image_original
     try:
-        file_input = document.getElementById("upload")
-        file = file_input.files.to_py().item(0)
+        # file_input = document.getElementById("upload")
+        # file = file_input.files.to_py().item(0)
 
-        if not file:
-            console.log("Nenhum arquivo selecionado.")
+        # if not file:
+        #     console.log("Nenhum arquivo selecionado.")
+        #     return
+
+        # reader = FileReader.new()
+        
+        image_data = window.localStorage.getItem("captura")
+        if not image_data:
+            window.alert("Nenhuma imagem capturada.")
             return
 
-        reader = FileReader.new()
+        #async def on_load():
+        data_url = image_data
+        document.getElementById("preview-original").src = data_url
+        image_original = data_url
+        console.log("🖼️ Imagem carregada.")
 
-        async def on_load():
-            global image_original
-            data_url = reader.result
-            document.getElementById("preview-original").src = data_url
-            image_original = data_url  # Set the global variable
-            console.log("🖼️ Imagem carregada.")
+        # Salvar no banco
+        usuario_id = window.sessionStorage.getItem("usuario_id") or "123"
+        payload = {
+            "usuario_id": usuario_id,
+            "original": data_url,
+            "histogram": None,
+            "resize": None,
+            "normalize": None,
+            "gaussian": None,
+            "clahe": None,
+            "otsu": None,
+            "morphological": None,
+            "edgedetection": None,
+            "watershed": None,
+            "resultado_final": None,
+            "diagnostico": None,
+            "probabilidade": None,
+            "metadados": None,
+        }
 
-            # Salvar no banco
-            usuario_id = window.sessionStorage.getItem("usuario_id") or "123"
-            payload = {
-                "usuario_id": usuario_id,
-                "original": data_url,
-                "histogram": None,
-                "resize": None,
-                "normalize": None,
-                "gaussian": None,
-                "clahe": None,
-                "otsu": None,
-                "morphological": None,
-                "edgedetection": None,
-                "watershed": None,
-                "resultado_final": None,
-                "diagnostico": None,
-                "probabilidade": None,
-                "metadados": None,
-            }
+        body = json.dumps(payload)
+        r = await fetch(
+            f"{BASE_URL}/imagens",
+            to_js(
+                {
+                    "method": "POST",
+                    "body": body,
+                    "headers": {"Content-Type": "application/json"},
+                }
+            ),
+        )
+        console.log("🗃️ Imagem salva:", await r.json())
 
-            body = json.dumps(payload)
-            r = await fetch(
-                f"{BASE_URL}/imagens",
-                to_js(
-                    {
-                        "method": "POST",
-                        "body": body,
-                        "headers": {"Content-Type": "application/json"},
-                    }
-                ),
-            )
-            console.log("🗃️ Imagem salva:", await r.json())
-
-        reader.onload = lambda _: asyncio.get_event_loop().run_until_complete(on_load())
-        reader.readAsDataURL(file)
+        # reader.onload = lambda _: asyncio.get_event_loop().run_until_complete(on_load())
+        # reader.readAsDataURL(file)
 
     except Exception as e:
         window.alert(f"Erro ao carregar imagem: {e}")
