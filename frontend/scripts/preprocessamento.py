@@ -131,7 +131,7 @@ async def carregar_imagem(event):
 async def aplicar_filtro(filtro, append_after_id):
     global imagem_processada, processadas
     if not image_original:
-        window.alert("Selecione ou carregue uma imagem primeiro.")
+        window.alert("Carregue uma imagem primeiro.")
         return
 
     try:
@@ -154,10 +154,27 @@ async def aplicar_filtro(filtro, append_after_id):
             # Add the processed image below the corresponding button
             button = document.querySelector(append_after_id)
             if button:
+                # Criar container para imagem + botão
+                container = document.createElement("div")
+                container.className = "mb-6 text-center"
+
+                # Criar imagem
                 imagem = document.createElement("img")
                 imagem.src = imagem_processada
-                imagem.className = "w-full h-40 object-contain border"
-                button.parentNode.insertBefore(imagem, button.nextSibling)
+                imagem.className = "w-full h-40 object-contain border mb-2"
+                container.appendChild(imagem)
+
+                # Criar botão
+                download = document.createElement("button")
+                download.innerText = "📥 Download"
+                download.className = (
+                    "bg-[#7DA584] text-white px-3 py-1 rounded hover:bg-[#5b8f79]"
+                )
+                download.onclick = lambda e, data=imagem_processada, f=filtro: baixar_imagem(data, f)
+                container.appendChild(download)
+
+                # Inserir bloco após o botão correspondente
+                button.parentNode.insertBefore(container, button.nextSibling)
 
         else:
             window.alert(f"Erro ao aplicar {filtro}")
